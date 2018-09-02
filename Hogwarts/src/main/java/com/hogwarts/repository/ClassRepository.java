@@ -6,22 +6,30 @@ import java.sql.SQLException;
 public class ClassRepository extends HogwartsConnection {
 
 	public ResultSet getAllClasses() throws SQLException {
-		return statement.executeQuery("SELECT * FROM classes");		
+		return connection.prepareStatement("SELECT * FROM classes").executeQuery();		
 	}
 	
-	public void getClassByTeacher(int teacherId) throws SQLException {
-		ResultSet rs = statement.executeQuery("SELECT class_id FROM teachers WHERE teacher_id = " + teacherId);
+	public ResultSet getClassByTeacher(int teacherId) throws SQLException {
+		return connection.prepareStatement("SELECT * FROM classes where classId = (select classId from teachers where teacher_id = )"+teacherId).executeQuery();		
 	}
 	
-	public void createClass(com.hogwarts.model.Class newClass) throws SQLException {
-		ResultSet rs = statement.executeQuery("INSERT INTO classes VALUES (" + newClass.getClassName() + ")");
+	public ResultSet getClassByBook(int bookId) throws SQLException {
+		return connection.prepareStatement("SELECT * FROM classes where classId = (select classId from books where book_id = )"+bookId).executeQuery();
 	}
 	
-	public void updateClass(int classId, com.hogwarts.model.Class updatedClass) throws SQLException {
-		ResultSet rs = statement.executeQuery("UPDATE classes class_name = " + updatedClass.getClassName()+ " WHERE class_id = " + updatedClass.getClassId());
+	public ResultSet getClassByStudent(int studentId) throws SQLException {
+		return connection.prepareStatement("SELECT * FROM classes where classId = (select classId from students where student_id = )"+studentId).executeQuery();
 	}
 	
-	public void deleteClass(int classId) throws SQLException {
-		ResultSet rs = statement.executeQuery("DELETE FROM classes WHERE class_id = " + classId);
+	public ResultSet createClass(com.hogwarts.model.Class newClass) throws SQLException {
+		return connection.prepareStatement("INSERT INTO classes VALUES (" + newClass.getClassName() + ")").executeQuery();
+	}
+	
+	public ResultSet updateClass(int classId, com.hogwarts.model.Class updatedClass) throws SQLException {
+		return connection.prepareStatement("UPDATE classes class_name = " + updatedClass.getClassName()+ " WHERE class_id = " + updatedClass.getClassId()).executeQuery();
+	}
+	
+	public ResultSet deleteClass(int classId) throws SQLException {
+		return connection.prepareStatement("DELETE FROM classes WHERE class_id = " + classId).executeQuery();
 	}
 }

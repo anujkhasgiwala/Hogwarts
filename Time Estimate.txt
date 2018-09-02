@@ -1,0 +1,3 @@
+Aug 29: 1 hr - Database design and project structure
+Aug 30: 1.5 hr - Code writing
+Aug 31: 1 hr - Code writing
